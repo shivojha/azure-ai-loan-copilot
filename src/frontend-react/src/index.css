@@ -1,0 +1,41 @@
+:root {
+  font-family: 'Sora', 'Segoe UI', sans-serif;
+  color: #17324d;
+  background:
+    radial-gradient(circle at top, rgba(15, 118, 110, 0.08), transparent 30%),
+    #f6f2e9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+h1,
+h2,
+p,
+ol {
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}

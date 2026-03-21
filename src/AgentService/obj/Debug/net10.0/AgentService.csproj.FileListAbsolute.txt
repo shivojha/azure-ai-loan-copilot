@@ -1,0 +1,11 @@
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/bin/Debug/net10.0/AgentService.deps.json
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/bin/Debug/net10.0/AgentService.dll
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/bin/Debug/net10.0/AgentService.pdb
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.GeneratedMSBuildEditorConfig.editorconfig
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.AssemblyInfoInputs.cache
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.AssemblyInfo.cs
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.csproj.CoreCompileInputs.cache
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.dll
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/refint/AgentService.dll
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.pdb
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/ref/AgentService.dll

@@ -1,0 +1,11 @@
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/bin/Debug/net10.0/SharedKernel.deps.json
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/bin/Debug/net10.0/SharedKernel.dll
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/bin/Debug/net10.0/SharedKernel.pdb
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.GeneratedMSBuildEditorConfig.editorconfig
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.AssemblyInfoInputs.cache
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.AssemblyInfo.cs
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.csproj.CoreCompileInputs.cache
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.dll
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/refint/SharedKernel.dll
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.pdb
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/ref/SharedKernel.dll

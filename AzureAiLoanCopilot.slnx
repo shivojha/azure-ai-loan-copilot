@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AgentService/AgentService.csproj" />
+    <Project Path="src/ChatApi/ChatApi.csproj" />
+    <Project Path="src/RetrievalService/RetrievalService.csproj" />
+    <Project Path="src/SharedKernel/SharedKernel.csproj" />
+  </Folder>
+</Solution>
