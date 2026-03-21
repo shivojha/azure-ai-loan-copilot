@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
 
@@ -8,32 +8,54 @@ type ChatMessage = {
   text: string
 }
 
-const cannedReplies = [
-  'For step 1, this response is generated in the React app so we can shape the UI before wiring the real API.',
-  'This mock conversation helps us validate layout, message rendering, and basic input handling.',
-  'Once step 2 starts, we will replace this local reply with a fetch call to the ChatApi backend.',
-]
-
-const starterQuestions = [
-  'What do I need for pre-approval?',
-  'How much should I save for closing costs?',
-  'How does my credit score affect rates?',
-]
+type ChatResponse = {
+  id: string
+  role: 'assistant' | 'user'
+  message: string
+  timestamp: string
+  tags: string[]
+}
 
 function App() {
   const [draft, setDraft] = useState('')
+  const [starterQuestions, setStarterQuestions] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       role: 'assistant',
-      text: 'Welcome to Loan Copilot. This is the step 1 UI shell with local mock replies so we can finalize the experience before connecting the real API.',
+      text: 'Welcome to Loan Copilot. The chat UI is now connected to the local backend, so the next message you send will come from `POST /api/chat`.',
     },
   ])
 
-  const sendMessage = (text: string) => {
+  useEffect(() => {
+    const loadStarterQuestions = async () => {
+      try {
+        const response = await fetch('/api/chat/prompts')
+
+        if (!response.ok) {
+          throw new Error('Unable to load starter prompts.')
+        }
+
+        const prompts = (await response.json()) as string[]
+        setStarterQuestions(prompts)
+      } catch {
+        setStarterQuestions([
+          'What do I need for pre-approval?',
+          'How much should I save for closing costs?',
+          'How does my credit score affect rates?',
+        ])
+      }
+    }
+
+    void loadStarterQuestions()
+  }, [])
+
+  const sendMessage = async (text: string) => {
     const trimmed = text.trim()
 
-    if (!trimmed) {
+    if (!trimmed || isLoading) {
       return
     }
 
@@ -43,19 +65,47 @@ function App() {
       text: trimmed,
     }
 
-    const assistantMessage: ChatMessage = {
-      id: crypto.randomUUID(),
-      role: 'assistant',
-      text: cannedReplies[messages.length % cannedReplies.length],
-    }
-
-    setMessages((current) => [...current, userMessage, assistantMessage])
+    setErrorMessage('')
+    setMessages((current) => [...current, userMessage])
     setDraft('')
+
+    try {
+      setIsLoading(true)
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: trimmed }),
+      })
+
+      if (!response.ok) {
+        throw new Error('The chat API returned an error.')
+      }
+
+      const assistantReply = (await response.json()) as ChatResponse
+
+      setMessages((current) => [
+        ...current,
+        {
+          id: assistantReply.id,
+          role: assistantReply.role,
+          text: assistantReply.message,
+        },
+      ])
+    } catch {
+      setErrorMessage(
+        'The app could not reach the local chat API. Make sure the backend is running on http://localhost:5216.',
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    sendMessage(draft)
+    await sendMessage(draft)
   }
 
   return (
@@ -64,8 +114,8 @@ function App() {
         <p className="eyebrow">Azure AI Loan Copilot</p>
         <h1>Mock Chat API setup is ready for the next integration step.</h1>
         <p className="hero-copy">
-          Step 1 gives us a stable contract and a realistic chat screen. The UI
-          below is still using local mock responses on purpose.
+          Step 2 wires the React app to the local backend so the interface is
+          now exercising the real chat contract.
         </p>
 
         <div className="hero-card">
@@ -81,10 +131,12 @@ function App() {
       <section className="chat-panel">
         <div className="chat-header">
           <div>
-            <p className="chat-kicker">Step 1</p>
-            <h2>Frontend chat shell</h2>
+            <p className="chat-kicker">Step 2</p>
+            <h2>React connected to local API</h2>
           </div>
-          <span className="status-pill">Local mock mode</span>
+          <span className="status-pill">
+            {isLoading ? 'Waiting on API' : 'API connected'}
+          </span>
         </div>
 
         <div className="starter-row" aria-label="Starter questions">
@@ -93,12 +145,15 @@ function App() {
               key={question}
               type="button"
               className="starter-chip"
-              onClick={() => sendMessage(question)}
+              onClick={() => void sendMessage(question)}
+              disabled={isLoading}
             >
               {question}
             </button>
           ))}
         </div>
+
+        {errorMessage ? <p className="error-banner">{errorMessage}</p> : null}
 
         <div className="message-list" aria-live="polite">
           {messages.map((message) => (
@@ -112,6 +167,13 @@ function App() {
               <p>{message.text}</p>
             </article>
           ))}
+
+          {isLoading ? (
+            <article className="message-bubble message-bubble--assistant message-bubble--pending">
+              <span className="message-role">Copilot</span>
+              <p>Thinking through your loan question...</p>
+            </article>
+          ) : null}
         </div>
 
         <form className="composer" onSubmit={handleSubmit}>
@@ -123,11 +185,14 @@ function App() {
             rows={3}
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
-            placeholder="Ask a mock loan question..."
+            placeholder="Ask a loan question..."
+            disabled={isLoading}
           />
           <div className="composer-footer">
-            <p>Step 2 will point this form at `POST /api/chat`.</p>
-            <button type="submit">Send</button>
+            <p>Requests are sent to `POST /api/chat` through the Vite dev proxy.</p>
+            <button type="submit" disabled={isLoading || !draft.trim()}>
+              {isLoading ? 'Sending...' : 'Send'}
+            </button>
           </div>
         </form>
       </section>

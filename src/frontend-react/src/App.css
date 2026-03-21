@@ -111,6 +111,22 @@
   box-shadow: 0 14px 32px rgba(18, 60, 105, 0.14);
 }
 
+.starter-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: 0 8px 24px rgba(18, 60, 105, 0.08);
+}
+
+.error-banner {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
 .message-list {
   flex: 1;
   min-height: 360px;
@@ -145,6 +161,10 @@
   background: #123c69;
   color: #f7fbfc;
   border-top-right-radius: 8px;
+}
+
+.message-bubble--pending {
+  opacity: 0.85;
 }
 
 .composer {
@@ -190,6 +210,11 @@
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+}
+
+.composer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .sr-only {
