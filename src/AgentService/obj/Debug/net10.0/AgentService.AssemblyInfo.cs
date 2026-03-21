@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AgentService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f85ec335ef0a00e814771cda4f28957aebebf120")]
 [assembly: System.Reflection.AssemblyProductAttribute("AgentService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AgentService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

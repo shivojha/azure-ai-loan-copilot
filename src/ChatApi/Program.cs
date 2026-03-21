@@ -1,8 +1,14 @@
+using ChatApi.Configuration;
+using ChatApi.Services;
+using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+builder.Services.Configure<AzureOpenAiOptions>(
+    builder.Configuration.GetSection(AzureOpenAiOptions.SectionName));
+builder.Services.AddSingleton<IChatResponder, AzureOpenAiChatResponder>();
 
 builder.Services.AddCors(options =>
 {
@@ -25,10 +31,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("frontend");
 
-app.MapGet("/api/health", () => Results.Ok(new
+app.MapGet("/api/health", (IOptions<AzureOpenAiOptions> options) => Results.Ok(new
 {
     status = "ok",
     service = "ChatApi",
+    mode = options.Value.IsConfigured ? "azure-openai" : "mock-fallback",
     timestamp = DateTimeOffset.UtcNow
 }));
 
@@ -39,25 +46,24 @@ app.MapGet("/api/chat/prompts", () => Results.Ok(new[]
     "What is the difference between pre-qualification and pre-approval?"
 }));
 
-app.MapPost("/api/chat", (ChatRequest request) =>
+app.MapPost("/api/chat", async (
+    ChatRequest request,
+    IChatResponder chatResponder,
+    CancellationToken cancellationToken) =>
 {
     if (string.IsNullOrWhiteSpace(request.Message))
     {
         return Results.BadRequest(new { error = "Message is required." });
     }
 
-    var reply = MockLoanAssistant.GenerateReply(request.Message);
+    ChatResult result = await chatResponder.GetReplyAsync(request.Message, cancellationToken);
 
     return Results.Ok(new ChatResponse(
         Guid.NewGuid().ToString("N"),
         "assistant",
-        reply,
+        result.Message,
         DateTimeOffset.UtcNow,
-        new[]
-        {
-            "mock-response",
-            "step-1"
-        }));
+        result.Tags));
 });
 
 app.Run();
@@ -70,25 +76,25 @@ internal static class MockLoanAssistant
 
         if (normalized.Contains("pre-approval") || normalized.Contains("preapproval"))
         {
-            return "For pre-approval, most lenders usually ask for pay stubs, W-2s, bank statements, a photo ID, and permission to review your credit. This is a mock answer for step 1, but it gives us a realistic shape for the UI.";
+            return "For pre-approval, most lenders usually ask for pay stubs, W-2s, bank statements, a photo ID, and permission to review your credit. This mock fallback stays available during phase 3 in case Azure OpenAI settings are not ready yet.";
         }
 
         if (normalized.Contains("closing cost"))
         {
-            return "Closing costs often land around 2% to 5% of the home price, depending on lender fees, taxes, insurance, and local requirements. In the mock API, we can use answers like this to exercise the chat flow before Azure OpenAI is plugged in.";
+            return "Closing costs often land around 2% to 5% of the home price, depending on lender fees, taxes, insurance, and local requirements. This response came from the local fallback path while Azure OpenAI is being wired in.";
         }
 
         if (normalized.Contains("credit score"))
         {
-            return "Credit score expectations vary by loan type, but stronger scores usually improve rate options and approval odds. This mock backend is intentionally deterministic so we can test the app without external dependencies.";
+            return "Credit score expectations vary by loan type, but stronger scores usually improve rate options and approval odds. This is the fallback response shape the UI will still accept if Azure OpenAI is unavailable.";
         }
 
         if (normalized.Contains("hello") || normalized.Contains("hi"))
         {
-            return "Hi, I'm the mock loan assistant. Ask me about pre-approval, closing costs, credit, or next steps, and I'll return a canned response from the local API.";
+            return "Hi, I'm the loan assistant. Azure OpenAI is being integrated now, and the local fallback remains in place so the app stays usable during setup.";
         }
 
-        return "This is a mock loan assistant response from the local API. Step 1 is only about proving the backend contract and chat experience, so the reply is intentionally canned until we wire in Azure OpenAI later.";
+        return "This is the local fallback response. Once Azure OpenAI settings are configured, the same `/api/chat` endpoint will return model-generated answers without requiring a frontend contract change.";
     }
 }
 

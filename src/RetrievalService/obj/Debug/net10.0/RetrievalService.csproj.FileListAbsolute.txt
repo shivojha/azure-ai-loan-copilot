@@ -9,3 +9,4 @@
 /Users/so/code/azure-ai-loan-copilot/src/RetrievalService/obj/Debug/net10.0/refint/RetrievalService.dll
 /Users/so/code/azure-ai-loan-copilot/src/RetrievalService/obj/Debug/net10.0/RetrievalService.pdb
 /Users/so/code/azure-ai-loan-copilot/src/RetrievalService/obj/Debug/net10.0/ref/RetrievalService.dll
+/Users/so/code/azure-ai-loan-copilot/src/RetrievalService/obj/Debug/net10.0/RetrievalService.sourcelink.json

@@ -30,7 +30,7 @@ Notes:
 
 ## 2. Connect React UI To API
 
-Status: `in progress`
+Status: `done`
 
 Goal:
 Replace local mock replies in React with real HTTP calls to the local Chat API.
@@ -55,7 +55,7 @@ Notes:
 
 ## 3. Plug In Azure OpenAI
 
-Status: `todo`
+Status: `in progress`
 
 Goal:
 Swap the mock backend response generator for Azure OpenAI chat completion calls.
@@ -68,6 +68,11 @@ Deliverables:
 
 Files involved:
 - `src/ChatApi/Program.cs`
+- `src/ChatApi/Configuration/AzureOpenAiOptions.cs`
+- `src/ChatApi/Services/AzureOpenAiChatResponder.cs`
+- `src/ChatApi/Services/IChatResponder.cs`
+- `src/ChatApi/Services/ChatResult.cs`
+- `src/ChatApi/ChatApi.csproj`
 - `src/ChatApi/appsettings.json`
 - `src/ChatApi/appsettings.Development.json`
 - Additional service files if we split API and AI client logic
@@ -75,7 +80,10 @@ Files involved:
 
 Notes:
 - Prefer isolating Azure client code behind a small service abstraction
-- Architecture and tradeoffs should be updated as implementation decisions are made
+- Azure OpenAI integration compiles successfully with the `Azure.AI.OpenAI` SDK
+- `POST /api/chat` now routes through a responder service so the frontend contract stays unchanged
+- A mock fallback remains available when Azure settings are missing or requests fail
+- Runtime verification against a real Azure endpoint is still pending
 
 ## 4. Add Retrieval / RAG
 

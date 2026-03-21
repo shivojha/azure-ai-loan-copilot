@@ -37,3 +37,10 @@
 /Users/so/code/azure-ai-loan-copilot/src/ChatApi/obj/Debug/net10.0/ChatApi.pdb
 /Users/so/code/azure-ai-loan-copilot/src/ChatApi/obj/Debug/net10.0/ChatApi.genruntimeconfig.cache
 /Users/so/code/azure-ai-loan-copilot/src/ChatApi/obj/Debug/net10.0/ref/ChatApi.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/Azure.AI.OpenAI.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/Azure.Core.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/OpenAI.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/System.ClientModel.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/bin/Debug/net10.0/System.Memory.Data.dll
+/Users/so/code/azure-ai-loan-copilot/src/ChatApi/obj/Debug/net10.0/ChatApi.sourcelink.json

@@ -9,3 +9,4 @@
 /Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/refint/SharedKernel.dll
 /Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.pdb
 /Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/ref/SharedKernel.dll
+/Users/so/code/azure-ai-loan-copilot/src/SharedKernel/obj/Debug/net10.0/SharedKernel.sourcelink.json

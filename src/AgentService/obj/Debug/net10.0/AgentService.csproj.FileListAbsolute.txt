@@ -9,3 +9,4 @@
 /Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/refint/AgentService.dll
 /Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.pdb
 /Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/ref/AgentService.dll
+/Users/so/code/azure-ai-loan-copilot/src/AgentService/obj/Debug/net10.0/AgentService.sourcelink.json
