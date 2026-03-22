@@ -43,25 +43,32 @@ Mortgage borrowers face hundreds of questions before closing — credit scores, 
 
 ## Architecture
 
-```
-Browser (React)
-    │
-    ▼
-ChatApi (ASP.NET Core .NET 10)
-    │
-    ├─ LocalFileRetriever ──► data/loan-kb/*.md
-    │     keyword search         5 loan documents
-    │     section chunking
-    │     token budget
-    │
-    └─ Azure OpenAI (GPT-4o)
-          grounded prompt =
-          base system prompt
-          + retrieved context
-          + user question
+```mermaid
+flowchart TD
+    User(["👤 Borrower"])
+    UI["React UI\nVite · TypeScript"]
+    API["ChatApi\nASP.NET Core · .NET 10"]
+    Retriever["LocalFileRetriever\nKeyword search · Section chunking\nToken budget · Pre-computed chunks"]
+    KB[("data/loan-kb/\nfha-loan-requirements.md\nconventional-loan-requirements.md\npre-approval-process.md\nclosing-costs.md\ncredit-score-guidelines.md")]
+    Prompt["Prompt Composer\nBase system prompt\n+ retrieved context\n+ user question"]
+    OAI["☁️ Azure OpenAI\nGPT-4o"]
+    Response["Response\nmessage + sources[ ]"]
+
+    User -->|asks a loan question| UI
+    UI -->|POST /api/chat| API
+    API -->|QueryAsync| Retriever
+    Retriever -->|keyword match + score| KB
+    KB -->|ranked snippets| Retriever
+    Retriever -->|RetrievalResult[ ]| API
+    API --> Prompt
+    Prompt -->|grounded prompt| OAI
+    OAI -->|completion| API
+    API -->|answer + citations| Response
+    Response --> UI
+    UI -->|GET /api/docs/:file| KB
 ```
 
-The retrieval backend is behind an `IRetrievalService` interface — upgrading from local file search to Azure AI Search (Phase 4B) is a single line change in dependency injection.
+The retrieval backend sits behind an `IRetrievalService` interface — upgrading from local file search to Azure AI Search (Phase 4B) is a single line change in dependency injection.
 
 ---
 
