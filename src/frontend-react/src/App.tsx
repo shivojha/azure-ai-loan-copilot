@@ -122,8 +122,8 @@ function App() {
       <section className="hero-panel">
         <div className="hero-panel-inner">
           <div className="hero-copy-block">
-            <p className="eyebrow">Azure AI Loan Copilot</p>
-            <h1>Trusted mortgage guidance with a modern conversational experience.</h1>
+            <h1 className="eyebrow">Azure AI Loan Copilot</h1>
+            <h2>Trusted mortgage guidance with a modern conversational experience.</h2>
             <p className="hero-copy">
               This prototype demonstrates a professional borrower-facing assistant
               that can answer lending questions, explain pre-approval steps, and
