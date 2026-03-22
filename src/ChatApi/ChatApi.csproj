@@ -13,6 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\data\loan-kb\**\*.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>data\loan-kb\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     <ProjectReference Include="..\RetrievalService\RetrievalService.csproj" />
     <ProjectReference Include="..\AgentService\AgentService.csproj" />

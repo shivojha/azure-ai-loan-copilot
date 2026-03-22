@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
 import './App.css'
+
+type Source = {
+  sourceName: string
+  snippet: string
+  relevance: number
+  fileUrl: string
+}
 
 type ChatMessage = {
   id: string
   role: 'assistant' | 'user'
   text: string
+  sources?: Source[]
 }
 
 type ChatResponse = {
@@ -14,6 +21,7 @@ type ChatResponse = {
   message: string
   timestamp: string
   tags: string[]
+  sources: Source[]
 }
 
 function App() {
@@ -92,6 +100,7 @@ function App() {
           id: assistantReply.id,
           role: assistantReply.role,
           text: assistantReply.message,
+          sources: assistantReply.sources,
         },
       ])
     } catch {
@@ -103,7 +112,7 @@ function App() {
     }
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: { preventDefault(): void }) => {
     event.preventDefault()
     await sendMessage(draft)
   }
@@ -125,9 +134,9 @@ function App() {
           <div className="hero-card">
             <span className="hero-card-label">Experience Highlights</span>
             <ol>
-              <li>Natural-language assistance for common mortgage questions.</li>
-              <li>Responsive chat flow backed by a real API contract.</li>
-              <li>Architecture ready for Azure OpenAI and retrieval expansion.</li>
+              <li>Answers grounded in real loan guidelines — not generic AI responses.</li>
+              <li>Every answer cites the source document it was drawn from.</li>
+              <li>Powered by Azure OpenAI with a curated mortgage knowledge base.</li>
             </ol>
           </div>
 
@@ -185,6 +194,24 @@ function App() {
                 {message.role === 'assistant' ? 'Copilot' : 'You'}
               </span>
               <p>{message.text}</p>
+              {message.sources && message.sources.length > 0 && (
+                <div className="source-list">
+                  <span className="source-label">Sources</span>
+                  <div className="source-chips">
+                    {message.sources.map((source) => (
+                      <a
+                        key={source.sourceName}
+                        className="source-chip"
+                        href={source.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {source.sourceName}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </article>
           ))}
 

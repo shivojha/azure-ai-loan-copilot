@@ -1,6 +1,8 @@
 using ChatApi.Configuration;
 using ChatApi.Services;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using RetrievalService;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.Configure<AzureOpenAiOptions>(
     builder.Configuration.GetSection(AzureOpenAiOptions.SectionName));
+builder.Services.Configure<RetrievalOptions>(
+    builder.Configuration.GetSection(RetrievalOptions.SectionName));
+
+builder.Services.AddSingleton<IRetrievalService>(sp =>
+    new LocalFileRetriever(sp.GetRequiredService<IOptions<RetrievalOptions>>().Value));
 builder.Services.AddSingleton<IChatResponder, AzureOpenAiChatResponder>();
 
 builder.Services.AddCors(options =>
@@ -30,6 +37,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("frontend");
+
+var loanKbPath = Path.Combine(AppContext.BaseDirectory, "data/loan-kb");
+if (Directory.Exists(loanKbPath))
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(loanKbPath),
+        RequestPath = "/api/docs"
+    });
+}
 
 app.MapGet("/api/health", (IOptions<AzureOpenAiOptions> options) => Results.Ok(new
 {
@@ -63,7 +80,8 @@ app.MapPost("/api/chat", async (
         "assistant",
         result.Message,
         DateTimeOffset.UtcNow,
-        result.Tags));
+        result.Tags,
+        result.Sources.Select(s => new SourceDto(s.SourceName, s.Snippet, s.Relevance, $"/api/docs/{s.FileName}")).ToArray()));
 });
 
 app.Run();
@@ -101,9 +119,16 @@ internal static class MockLoanAssistant
 internal sealed record ChatRequest(
     [property: JsonPropertyName("message")] string Message);
 
+internal sealed record SourceDto(
+    [property: JsonPropertyName("sourceName")] string SourceName,
+    [property: JsonPropertyName("snippet")] string Snippet,
+    [property: JsonPropertyName("relevance")] float Relevance,
+    [property: JsonPropertyName("fileUrl")] string FileUrl);
+
 internal sealed record ChatResponse(
     [property: JsonPropertyName("id")] string Id,
     [property: JsonPropertyName("role")] string Role,
     [property: JsonPropertyName("message")] string Message,
     [property: JsonPropertyName("timestamp")] DateTimeOffset Timestamp,
-    [property: JsonPropertyName("tags")] string[] Tags);
+    [property: JsonPropertyName("tags")] string[] Tags,
+    [property: JsonPropertyName("sources")] SourceDto[] Sources);
