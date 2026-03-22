@@ -59,7 +59,7 @@ flowchart TD
     API -->|QueryAsync| Retriever
     Retriever -->|keyword match + score| KB
     KB -->|ranked snippets| Retriever
-    Retriever -->|RetrievalResult[ ]| API
+    Retriever -->|ranked snippets + scores| API
     API --> Prompt
     Prompt -->|grounded prompt| OAI
     OAI -->|completion| API
