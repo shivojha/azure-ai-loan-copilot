@@ -39,7 +39,6 @@ internal sealed class AzureOpenAiChatResponder(
 
             ChatCompletionOptions chatOptions = new()
             {
-                MaxOutputTokenCount = _options.MaxOutputTokens,
                 Temperature = _options.Temperature
             };
 

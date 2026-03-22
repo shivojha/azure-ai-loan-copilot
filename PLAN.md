@@ -84,6 +84,7 @@ Notes:
 - `POST /api/chat` now routes through a responder service so the frontend contract stays unchanged
 - A mock fallback remains available when Azure settings are missing or requests fail
 - Runtime verification against a real Azure endpoint is still pending
+- Setup instructions are documented in `docs/SETUP_AZURE_OPENAI.md`
 
 ## 4. Add Retrieval / RAG
 

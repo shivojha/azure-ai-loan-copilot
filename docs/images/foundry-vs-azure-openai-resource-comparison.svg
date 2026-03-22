@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="430" viewBox="0 0 1600 430" role="img" aria-labelledby="title desc">
+  <title id="title">Azure OpenAI resource vs Foundry comparison</title>
+  <desc id="desc">Comparison table showing Azure OpenAI resource and Foundry across model access, customization and evaluation, agent service, Foundry API access, and content understanding.</desc>
+  <style>
+    .border { fill: #ffffff; stroke: #d9d9d9; stroke-width: 1; }
+    .head { font: 700 18px Georgia, "Times New Roman", serif; fill: #2a2a2a; }
+    .cell { font: 400 15px Georgia, "Times New Roman", serif; fill: #303030; }
+    .check { font: 700 24px Georgia, "Times New Roman", serif; fill: #2e7d32; }
+    .cross { font: 400 26px Georgia, "Times New Roman", serif; fill: #6f6f6f; }
+  </style>
+
+  <rect x="1" y="1" width="1598" height="428" rx="6" class="border" />
+
+  <line x1="260" y1="1" x2="260" y2="429" stroke="#d9d9d9" />
+  <line x1="520" y1="1" x2="520" y2="429" stroke="#d9d9d9" />
+  <line x1="780" y1="1" x2="780" y2="429" stroke="#d9d9d9" />
+  <line x1="1040" y1="1" x2="1040" y2="429" stroke="#d9d9d9" />
+  <line x1="1300" y1="1" x2="1300" y2="429" stroke="#d9d9d9" />
+  <line x1="1" y1="95" x2="1599" y2="95" stroke="#d9d9d9" />
+  <line x1="1" y1="230" x2="1599" y2="230" stroke="#d9d9d9" />
+
+  <text x="16" y="48" class="head">Resource type</text>
+  <text x="276" y="48" class="head">Model access</text>
+  <text x="536" y="38" class="head">Customization and</text>
+  <text x="536" y="62" class="head">evaluation</text>
+  <text x="796" y="48" class="head">Agent service</text>
+  <text x="1080" y="48" class="head">Foundry API access</text>
+  <text x="1340" y="48" class="head">Content understanding</text>
+
+  <text x="16" y="145" class="cell">Azure OpenAI resource</text>
+  <text x="276" y="145" class="cell">OpenAI models</text>
+  <text x="536" y="145" class="cell">Limited to OpenAI</text>
+  <text x="806" y="147" text-anchor="middle" class="cross">×</text>
+  <text x="1170" y="147" text-anchor="middle" class="cross">×</text>
+  <text x="1430" y="147" text-anchor="middle" class="cross">×</text>
+
+  <text x="16" y="278" class="cell">Foundry</text>
+  <text x="276" y="278" class="cell">Models sold directly by Azure,</text>
+  <text x="276" y="306" class="cell">including OpenAI, DeepSeek, xAI,</text>
+  <text x="276" y="334" class="cell">and partner marketplace models.</text>
+  <text x="546" y="282" class="check">✓</text>
+  <text x="806" y="282" text-anchor="middle" class="check">✓</text>
+  <text x="1090" y="282" text-anchor="middle" class="check">✓</text>
+  <text x="1430" y="282" text-anchor="middle" class="check">✓</text>
+</svg>

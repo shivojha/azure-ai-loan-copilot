@@ -111,31 +111,51 @@ function App() {
   return (
     <main className="app-shell">
       <section className="hero-panel">
-        <p className="eyebrow">Azure AI Loan Copilot</p>
-        <h1>Mock Chat API setup is ready for the next integration step.</h1>
-        <p className="hero-copy">
-          Step 2 wires the React app to the local backend so the interface is
-          now exercising the real chat contract.
-        </p>
+        <div className="hero-panel-inner">
+          <div className="hero-copy-block">
+            <p className="eyebrow">Azure AI Loan Copilot</p>
+            <h1>Trusted mortgage guidance with a modern conversational experience.</h1>
+            <p className="hero-copy">
+              This prototype demonstrates a professional borrower-facing assistant
+              that can answer lending questions, explain pre-approval steps, and
+              evolve into a retrieval-grounded advisory experience.
+            </p>
+          </div>
 
-        <div className="hero-card">
-          <span className="hero-card-label">What happens next</span>
-          <ol>
-            <li>Replace local replies with a POST to the Chat API.</li>
-            <li>Keep the same message contract when Azure OpenAI is added.</li>
-            <li>Layer retrieval on top once chat is stable end to end.</li>
-          </ol>
+          <div className="hero-card">
+            <span className="hero-card-label">Experience Highlights</span>
+            <ol>
+              <li>Natural-language assistance for common mortgage questions.</li>
+              <li>Responsive chat flow backed by a real API contract.</li>
+              <li>Architecture ready for Azure OpenAI and retrieval expansion.</li>
+            </ol>
+          </div>
+
+          <div className="hero-stats" aria-label="Product highlights">
+            <article className="hero-stat">
+              <span className="hero-stat-value">24/7</span>
+              <p className="hero-stat-label">Always-on borrower guidance</p>
+            </article>
+            <article className="hero-stat">
+              <span className="hero-stat-value">1 API</span>
+              <p className="hero-stat-label">Stable contract across phases</p>
+            </article>
+            <article className="hero-stat">
+              <span className="hero-stat-value">Next</span>
+              <p className="hero-stat-label">Retrieval-backed domain answers</p>
+            </article>
+          </div>
         </div>
       </section>
 
       <section className="chat-panel">
         <div className="chat-header">
           <div>
-            <p className="chat-kicker">Step 2</p>
-            <h2>React connected to local API</h2>
+            <p className="chat-kicker">Live Assistant</p>
+            <h2>Mortgage conversation workspace</h2>
           </div>
           <span className="status-pill">
-            {isLoading ? 'Waiting on API' : 'API connected'}
+            {isLoading ? 'Responding' : 'Connected'}
           </span>
         </div>
 
@@ -189,7 +209,7 @@ function App() {
             disabled={isLoading}
           />
           <div className="composer-footer">
-            <p>Requests are sent to `POST /api/chat` through the Vite dev proxy.</p>
+            <p>Ask about pre-approval, closing costs, credit, or loan readiness.</p>
             <button type="submit" disabled={isLoading || !draft.trim()}>
               {isLoading ? 'Sending...' : 'Send'}
             </button>
